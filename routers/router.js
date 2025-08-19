@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getAllDados } from "../controllers/controler.js";
 
-const rota = Route();
+const rota = Router();
 
 rota.get('/', getAllDados);
 

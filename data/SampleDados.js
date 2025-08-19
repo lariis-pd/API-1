@@ -1,6 +1,6 @@
 import db from '../firebase.js'
 
-const agendaDiaria = [
+export const agendaDiaria = [
     { id: 1, titulo: "Tomar café da manhã", status: "concluído", horario: "07:30" },
     { id: 2, titulo: "Reunião com equipe", status: "em andamento", horario: "09:00" },
     { id: 3, titulo: "Responder emails", status: "pendente", horario: "10:30" },

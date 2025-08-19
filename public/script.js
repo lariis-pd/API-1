@@ -1,9 +1,8 @@
 import { response } from "express";
-import agendaDiaria from "../data/SampleDados.js"
-
-const urlApi = 'http://localhost:8080/'
-
+import agendaDiaria from "../data/SampleDados.js";
 import { agendaDiaria } from './sampleDados.js';
+
+const urlApi = 'http://localhost:8080/';
 
 function criarCard(tarefa){
   const card = document.createElement('div');
