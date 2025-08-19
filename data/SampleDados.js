@@ -1,4 +1,4 @@
-import db from '..firebase.js'
+import db from '../firebase.js'
 
 const agendaDiaria = [
     { id: 1, titulo: "Tomar café da manhã", status: "concluído", horario: "07:30" },

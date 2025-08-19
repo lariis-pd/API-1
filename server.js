@@ -1,5 +1,5 @@
 import express from 'express';
-import router from './routers/routerjs';
+import router from './routers/router.js';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -24,5 +24,5 @@ app.listen(() => {
 })
 
 app.listen(PORTA, () => {
-  console.log(`Servidor rodando em http://localhost:${PORTA}`);
+  console.log(`Servidor rodando em https://localhost:${PORTA}`);
 });

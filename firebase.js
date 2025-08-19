@@ -12,8 +12,8 @@
     measurementId: "G-G8Z4XP3GJK"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  const db = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(db);
   export {db};
-  
+
 
