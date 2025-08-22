@@ -1,38 +1,58 @@
-import { agendaDiaria } from '../data/SampleDados.js';
+import {db} from '../firebase.js'
 
-export const getAllDados = (req, res) => {
-  console.log("Chamando getAllDados");
-  res.json(agendaDiaria);
-};
-
-export const createDado = (req, res) => {
-  const novoDado = req.body;
-  
-  novoDado.id = agendaDiaria.length > 0 ? agendaDiaria[agendaDiaria.length -1].id + 1 : 1;
-  
-  agendaDiaria.push(novoDado);
-  res.status(201).json(novoDado);
-};
-
-export const updateDado = (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = agendaDiaria.findIndex(item => item.id === id);
-  
-  const atualizado = { ...agendaDiaria[index], ...req.body, id };
-  agendaDiaria[index] = atualizado;
-  
-  res.json(atualizado);
-};
-
-export const deleteDado = (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = agendaDiaria.findIndex(item => item.id === id);
-  
-  if (index === -1) {
-    return res.status(404).json({ message: 'Dado não encontrado.' });
+export const createDado = async (req, res) => {
+  try {
+    const dado = req.body;
+    const docRef = await colecao.add(dado);
+    res.status(201).json({ id: docRef.id, ...dado });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  
-  agendaDiaria.splice(index, 1);
-  
-  res.status(204).send();
+};
+
+export const getAllDados = async (req, res) => {
+  try {
+    const snapshot = await colecao.get();
+    const dados = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    res.json(dados);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getDadoById = async (req, res) => {
+  try {
+    const doc = await colecao.doc(req.params.id).get();
+    if (!doc.exists) return res.status(404).json({ message: 'Dado não encontrado' });
+    res.json({ id: doc.id, ...doc.data() });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateDado = async (req, res) => {
+  try {
+    const docRef = colecao.doc(req.params.id);
+    const doc = await docRef.get();
+    if (!doc.exists) return res.status(404).json({ message: 'Dado não encontrado' });
+
+    await d// DELETERef.update(req.body);
+    const updatedDoc = await docRef.get();
+    res.json({ id: updatedDoc.id, ...updatedDoc.data() });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const deleteDado = async (req, res) => {
+  try {
+    const docRef = colecao.doc(req.params.id);
+    const doc = await docRef.get();
+    if (!doc.exists) return res.status(404).json({ message: 'Dado não encontrado' });
+
+    await docRef.delete();
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
